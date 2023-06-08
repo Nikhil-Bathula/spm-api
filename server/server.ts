@@ -16,12 +16,3 @@ server.on("listening", () => {
 });
 
 module.exports = App;
-
-// app.get("/", (req: Request, res: Response ) => {
-//     res.send("TypeScript says Hello...!");
-// });
-//
-// app.listen(port, () => {
-//     console.log(`App listening on PORT : ${port}`);
-//     console.log(`http://localhost:${port}`);
-// });
