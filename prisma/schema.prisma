@@ -16,6 +16,7 @@ model User {
   password   String
   company    Company? @relation(fields: [company_id], references: [id])
   company_id Int
+  refreshToken String
 }
 
 model Company {
