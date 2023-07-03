@@ -32,6 +32,7 @@ model User {
   company_id Int
   created_task_set Task[]
   tasks_watching_set Watcher[]
+  projects Project[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -45,6 +46,7 @@ model Project {
   company_id Int
   status_set Status[]
   task_set Task[]
+  members User[]
   estimated_date_of_completion DateTime?
 
   created_at DateTime @default(now())
@@ -88,5 +90,4 @@ model Watcher {
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-
 }

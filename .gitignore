@@ -1,5 +1,5 @@
 .idea
-
+prisma/migrations
 # Logs
 logs
 *.log
