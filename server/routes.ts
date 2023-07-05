@@ -4,9 +4,11 @@ import { authenticate } from '../middlewares/authentication';
 import { signup } from './controller/signup';
 import { resetPassword } from './controller/resetPassword';
 import {ProjectController} from "./controller/ProjectController";
+import {TaskController} from "./controller/TaskController";
 
 
 const projectController: ProjectController = new ProjectController()
+const taskController: TaskController = new TaskController()
 
 const routes = new Router();
 
@@ -25,8 +27,16 @@ routes.get("/projects/:id", (req: Request, res: Response) => {
         console.log(err)
         return res.sendStatus(400)
     }
+})
 
-    // projectController.getCompanyProjects(parseInt(req.params.id))
+routes.get("/tasks/:id", (req: Request, res: Response)=> {
+    try {
+        const id = parseInt(req.params.id)
+        taskController.getAssignedTasks(id).then(data => res.json(data))
+    } catch (err){
+        console.log(err)
+        return res.sendStatus(400)
+    }
 })
 
 export default routes;
