@@ -109,9 +109,9 @@ export const signup = async (req: Request, res: Response) => {
             console.log(error);
           } else {
             console.log('Email sent: ' + info.response);
+            res.send({ status: 200, message: 'Email Sent Successfully!' });
           }
         });
-        res.send({ status: 200, message: 'User Created Successfully!' });
       }
     })
   } catch (error) {
