@@ -9,7 +9,9 @@
     "start": "node dist/server/server.js",
     "predev": "npm run build",
     "dev": "concurrently \"npx tsc -w\" \"nodemon dist/server.js\" ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preloader": "npm run build",
+    "loader": "node dist/server/loader.js"
   },
   "repository": {
     "type": "git",

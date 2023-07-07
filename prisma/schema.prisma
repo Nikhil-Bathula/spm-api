@@ -27,10 +27,11 @@ model User {
   id Int @id @default(autoincrement())
   name String
   email String @unique
-  password String?
+  password String
   company Company @relation(fields: [company_id], references: [id] )
   company_id Int
-  created_task_set Task[]
+  created_task_set Task[] @relation("CreatedBy")
+  assigned_task_set Task[] @relation("AssignedTo")
   tasks_watching_set Watcher[]
   projects Project[]
   refreshToken String
@@ -73,8 +74,10 @@ model Task {
   description String
   status Status @relation(fields: [status_id], references: [id])
   status_id Int
-  created_by User @relation(fields: [employee_id], references: [id])
+  created_by User @relation("CreatedBy",fields: [employee_id], references: [id])
   employee_id Int
+  assigned User @relation("AssignedTo", fields: [assigned_to], references: [id])
+  assigned_to Int
   project Project @relation(fields: [project_id], references: [id])
   project_id Int
   watcher_set Watcher[]
@@ -93,3 +96,11 @@ model Watcher {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+// model ProjectMembers{
+//   id Int @id @default(autoincrement())
+//   project Project @relation(fields:[project_id],references:[id])
+//   user User @relation(fields:[user_id],references:[id])
+//   user_id Int
+//   project_id Int
+// }
