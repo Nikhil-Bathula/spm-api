@@ -10,19 +10,95 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id         Int     @id @default(autoincrement())
-  email      String  @unique
-  password   String
-  company    Company? @relation(fields: [company_id], references: [id])
-  company_id Int
+model Company {
+  id Int @id @default(autoincrement())
+  name String
+  country String
+  domain String
+  industry String
+  employee_set User[]
+  project_set Project[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
-model Company {
-  id       Int    @id @default(autoincrement())
-  name     String
-  country  String
-  domain   String
-  industry String
-  user User[]
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  company Company @relation(fields: [company_id], references: [id] )
+  company_id Int
+  created_task_set Task[]
+  tasks_watching_set Watcher[]
+  projects Project[]
+  projectmembers ProjectMembers[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
+
+model Project {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  company Company @relation(fields: [company_id], references: [id])
+  company_id Int
+  status_set Status[]
+  task_set Task[]
+  members User[]
+  membersinproject ProjectMembers[]
+  estimated_date_of_completion DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Status {
+  id Int @id @default(autoincrement())
+  name String
+  colour String
+  project Project @relation(fields: [project_id], references: [id])
+  project_id Int
+  task_set Task[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  status Status @relation(fields: [status_id], references: [id])
+  status_id Int
+  created_by User @relation(fields: [employee_id], references: [id])
+  employee_id Int
+  project Project @relation(fields: [project_id], references: [id])
+  project_id Int
+  watcher_set Watcher[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Watcher {
+  id Int @id @default(autoincrement())
+  task Task @relation(fields: [task_id], references: [id])
+  task_id Int
+  employee User @relation(fields: [employee_id], references: [id])
+  employee_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model ProjectMembers{
+  
+  projects Project @relation(fields:[project_id],references:[id])
+  project_id Int
+  users User @relation(fields:[user_id],references:[id])
+  user_id Int
+
+   @@id([user_id, project_id])
+ }

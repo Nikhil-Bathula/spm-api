@@ -10,16 +10,18 @@ const prisma = new PrismaClient();
 
 export const addProjectMembers = async (req: Request, res: Response) => {
   try {
+     res.send({ status: 200, response: ok, message: 'Entered' });
 
+     
     const verifyUserEmail = await prisma.User.findUnique({
         where: {
           email: req.body.email,
         },
     })
 
-    const verifyProjectDetails= await prisma.Projects.findUnique({
+    const verifyProjectDetails= await prisma.Project.findUnique({
         where:{
-            name:req.body.name
+            name:req.body.projectname
         },
     })
 
