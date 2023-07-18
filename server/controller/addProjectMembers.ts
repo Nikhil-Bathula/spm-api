@@ -10,16 +10,9 @@ const prisma = new PrismaClient();
 
 export const addProjectMembers = async (req: Request, res: Response) => {
   try {
-     res.send({ status: 200, response: ok, message: 'Entered' });
+    // res.send({ status: 200, response: ok, message: 'Entered' });
 
-     
-    const verifyUserEmail = await prisma.User.findUnique({
-        where: {
-          email: req.body.email,
-        },
-    })
-
-    const verifyProjectDetails= await prisma.Project.findUnique({
+    const verifyProjectDetails= await prisma.project.findUnique({
         where:{
             name:req.body.projectname
         },
@@ -27,13 +20,12 @@ export const addProjectMembers = async (req: Request, res: Response) => {
 
     if (verifyProjectDetails)
     {
-        const memberObj={
-     
-            project_id: verifyProjectDetails?.id,
-            user_id:verifyUserEmail?.id
-        }
+   
         const addmembers = await prisma.Projects.create({ 
-            data:memberObj
+            data:{
+              project_id: verifyProjectDetails?.id,
+              user_id:req.body.user_id
+            }
          });
         res.send({ status: 200, message: 'Employee added successfully to the project' });
     }
