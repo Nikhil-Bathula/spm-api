@@ -1,5 +1,14 @@
-import { PrismaClient } from "@prisma/client";
+import {Prisma, PrismaClient, User} from "@prisma/client";
 
+// const userType = {
+//     id : Number
+//     name : "Task-NEW",
+//     status_id: 1,
+//     project_id: 1,
+//     employee_id: 1,
+//     assigned_to: 1,
+//     description: "desc"
+// }
 export class TaskRepository {
     private prisma: PrismaClient;
 
@@ -15,26 +24,40 @@ export class TaskRepository {
         })
     }
 
-    async createTask(obj: any){
+    async createTask(obj: any) {
 
-        console.log(`INSIDE TASK REPO : ${obj}`)
+        console.log(`INSIDE TASK REPO : ${JSON.stringify(obj)}`)
 
-        const task_data = await await this.prisma.task.create({
-            data: {
-                ...obj
-                // name : "Task-NEW",
-                // status_id: 1,
-                // project_id: 1,
-                // employee_id: 1,
-                // assigned_to: 1,
-                // description: "desc"
-            },
-            include: {
-                created_by: true
+        try {
+            console.log(`INSIDE TRY - 24`)
+            return await this.prisma.user.create({
+                data: {
+                    ...obj
+                    // name : "Task-NEW",
+                    // status_id: 1,
+                    // project_id: 1,
+                    // employee_id: 1,
+                    // assigned_to: 1,
+                    // description: "desc"
+                }
+            })
+        } catch (err){
+            console.log(`INSIDE CATCH - 39`)
+            // @ts-ignore
+            const e = err.toString()
+            // console.log(`TYPEOF - ${typeof err}`)
+            // console.log(`TYPEOF - ${e}`)
+            // console.log(`TYPEOF - ${JSON.stringify()}`)
+            // throw err
+            if(err instanceof Prisma.PrismaClientValidationError){
+                // @ts-ignore
+                console.log(`CATCH _ VALIDATION ERROR 42 ${err.errorCode}`)
+                // console.log(`CATCH _ VALIDATION ERROR 42 ${err.message}`)
+                // throw err
+                return {"status": 400, "message": "Bad Request", "error": "Missing fields"}
             }
-        })
-        console.log(`TASK DATA : ${JSON.stringify(task_data)}`)
-        return task_data
+
+        }
     }
 
 }

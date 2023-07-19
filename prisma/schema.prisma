@@ -34,7 +34,7 @@ model User {
   assigned_task_set Task[] @relation("AssignedTo")
   tasks_watching_set Watcher[]
   projects Project[]
-  refreshToken String
+  refreshToken String?
   emailVerified Boolean @default(false)
 
   created_at DateTime @default(now())

@@ -16,8 +16,16 @@ export class TaskController {
         // console.log(`DATA : ${{...req.body}}`)
         console.log(`DATA : ${req.body.name}`)
 
-        await this.taskRepo.createTask(req.body)
-        console.log(`AWAITED REPO`)
+        try {
+            console.log(`CALLING repo`)
+            const tss_repo = await this.taskRepo.createTask(req.body)
+            console.log(`CALLED repo ${JSON.stringify(tss_repo?.status)}`)
+
+        } catch (err) {
+            console.log(`ERR TSController: ${err}`)
+            res.sendStatus(400)
+        }
+
         res.sendStatus(201)
 
     }

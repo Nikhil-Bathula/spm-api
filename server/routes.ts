@@ -41,6 +41,7 @@ routes.get("/tasks/:id", (req: Request, res: Response)=> {
     }
 })
 
+// routes.post("/createTask", taskController.createTask)
 routes.post("/createTask", (req: Request, res: Response) => {
     taskController.createTask(req, res)
 })
