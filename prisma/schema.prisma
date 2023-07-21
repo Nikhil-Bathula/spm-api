@@ -18,7 +18,6 @@ model Company {
   industry String
   employee_set User[]
   project_set Project[]
-
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -34,7 +33,8 @@ model User {
   assigned_task_set Task[] @relation("AssignedTo")
   tasks_watching_set Watcher[]
   projects Project[]
-  refreshToken String
+  projectmembers ProjectMembers[]
+  refreshToken String?
   emailVerified Boolean @default(false)
 
   created_at DateTime @default(now())
@@ -50,6 +50,7 @@ model Project {
   status_set Status[]
   task_set Task[]
   members User[]
+  membersinproject ProjectMembers[]
   estimated_date_of_completion DateTime?
 
   created_at DateTime @default(now())
@@ -97,6 +98,16 @@ model Watcher {
   updated_at DateTime @updatedAt
 }
 
+model ProjectMembers{
+
+  id Int @id @default(autoincrement())
+  projects Project @relation(fields:[project_id],references:[id])
+  project_id Int
+  users User @relation(fields:[user_id],references:[id])
+  user_id Int
+  created_At DateTime @default(now())
+
+ }
 // model ProjectMembers{
 //   id Int @id @default(autoincrement())
 //   project Project @relation(fields:[project_id],references:[id])
