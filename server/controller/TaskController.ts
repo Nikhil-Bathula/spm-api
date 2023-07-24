@@ -1,4 +1,11 @@
 import {TaskRepository} from "../repositories/TaskRepository";
+import { PrismaClient } from "@prisma/client";
+    
+export class TaskController {
+    private taskRepo: TaskRepository;
+    private prisma: PrismaClient;
+
+
 import {Request, Response} from "express";
 import {Prisma, PrismaClient, User} from "@prisma/client";
 
@@ -66,6 +73,19 @@ export class TaskController {
                 // return {"status": 400, "message": "Bad Request", "error": "Missing fields"}
             }
 
+
+    async getTaskDetail(task_id: number) {
+        const data = await this.prisma.task.findFirst({
+            where: {
+                id: {
+                    equals: task_id
+                }
+            }
+        })
+        console.log(`TaskController - 25 : ${JSON.stringify(data)}`)
+        
+       return data
+
         }
 
     //     try {
@@ -77,5 +97,6 @@ export class TaskController {
     //         res.sendStatus(400)
     //     }
     //     res.sendStatus(201)
+
     }
 }
