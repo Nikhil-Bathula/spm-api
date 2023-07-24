@@ -3,9 +3,15 @@ const { Router } = require('express');
 import { authenticate } from '../middlewares/authentication';
 import { signup } from './controller/signup';
 import { resetPassword } from './controller/resetPassword';
+import { addProjectMembers } from './controller/addProjectMembers';
+import { activate } from './controller/login';
 import {ProjectController} from "./controller/ProjectController";
 import {TaskController} from "./controller/TaskController";
+
 import { assignedProjectController } from "./controller/AssignedProjectController";
+
+import { addWatcher } from './controller/addWatcher';
+
 
 
 const projectController: ProjectController = new ProjectController()
@@ -16,6 +22,9 @@ const routes = new Router();
 routes.post('/authenticate', authenticate);
 routes.post('/signup', signup);
 routes.post('/resetPassword', resetPassword);
+routes.post('/addProjectMembers', addProjectMembers);
+routes.post('/activate', activate);
+routes.post('/addWatcher', addWatcher);
 
 routes.get("/projects/:id", (req: Request, res: Response) => {
     console.log(`PARAM : ${req.params.id}`)
@@ -40,6 +49,7 @@ routes.get("/tasks/:id", (req: Request, res: Response)=> {
     }
 })
 
+
 routes.get("/assignedProjects/:id", assignedProjectController)
 
 routes.get("/taskDetail/:id", (req: Request, res: Response) => {
@@ -62,5 +72,10 @@ routes.get("/taskDetail/:id", (req: Request, res: Response) => {
 // })
 
     
+
+// routes.post("/createTask", taskController.createTask)
+routes.post("/createTask", (req: Request, res: Response) => {
+    taskController.createTask(req, res)
+})
 
 export default routes;
