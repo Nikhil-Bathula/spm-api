@@ -7,7 +7,11 @@ import { addProjectMembers } from './controller/addProjectMembers';
 import { activate } from './controller/login';
 import {ProjectController} from "./controller/ProjectController";
 import {TaskController} from "./controller/TaskController";
+
+import { assignedProjectController } from "./controller/AssignedProjectController";
+
 import { addWatcher } from './controller/addWatcher';
+
 
 
 const projectController: ProjectController = new ProjectController()
@@ -44,6 +48,30 @@ routes.get("/tasks/:id", (req: Request, res: Response)=> {
         return res.sendStatus(400)
     }
 })
+
+
+routes.get("/assignedProjects/:id", assignedProjectController)
+
+routes.get("/taskDetail/:id", (req: Request, res: Response) => {
+
+    try {
+        taskController.getTaskDetail(parseInt(req.params.id))
+            .then(data => res.json({ "data": data }))
+    }
+    catch (err) {
+        console.log(err)
+        res.sendStatus(400)
+    }
+
+})
+
+
+// routes.get("/assignedProjects/:id", (req: Request, res: Response) => {
+//     console.log(`ASSIGNED PROJECTS PATH : ${req.params.id}`)
+//     res.sendStatus(204)
+// })
+
+    
 
 // routes.post("/createTask", taskController.createTask)
 routes.post("/createTask", (req: Request, res: Response) => {
