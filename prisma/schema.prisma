@@ -36,6 +36,7 @@ model User {
   projectmembers ProjectMembers[]
   refreshToken String?
   emailVerified Boolean @default(false)
+  comment_set Comment[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -82,6 +83,19 @@ model Task {
   project Project @relation(fields: [project_id], references: [id])
   project_id Int
   watcher_set Watcher[]
+  comment_set Comment[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  text String
+  task_id Int
+  task Task @relation(fields: [task_id], references: [id])
+  employee_id Int
+  employee User @relation(fields: [employee_id], references: [id])
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
