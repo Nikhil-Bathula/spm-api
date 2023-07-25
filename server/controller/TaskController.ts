@@ -8,6 +8,7 @@ export class TaskController {
     constructor() {
         this.taskRepo = new TaskRepository()
         this.prisma = new PrismaClient()
+        console.log(`TASK CONTROLLER : ${typeof this.taskRepo}`)
     }
     async getAssignedTasks(employee_id: number){
         return await this.taskRepo.getAssignedTasks(employee_id)
