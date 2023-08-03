@@ -19,8 +19,8 @@ const prisma = new PrismaClient()
 
 async function main() {
     await deleteAllWatchers()
-    await deleteAllStatuses()
     await deleteAllTasks()
+    await deleteAllStatuses()
     await deleteAllProjects()
     await deleteAllUsers()
     await deleteAllCompanies()
