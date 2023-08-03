@@ -13,8 +13,11 @@ export const signup = async (req: Request, res: Response) => {
         res.send({ status: 500, response: err, message: 'Error While Password Hashing' });
       } else {
         req.body.password = hashPassword;
-        const user = await prisma.User.create({ data: req.body });
-        console.log(user, 'user')
+        
+      
+        console.log("REQUEST BODY : ", req.body)
+        const user = await prisma.user.create({ data: {...req.body} });
+        
         const userEmail = user.email;
         const userToken = jwt.sign(userEmail, process.env.SPM_JWT_REFRESH)
         const transporter = nodemailer.createTransport({

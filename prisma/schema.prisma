@@ -11,47 +11,47 @@ datasource db {
 }
 
 model Company {
-  id Int @id @default(autoincrement())
-  name String
-  country String
-  domain String
-  industry String
+  id           Int       @id @default(autoincrement())
+  name         String
+  country      String
+  domain       String
+  industry     String
   employee_set User[]
-  project_set Project[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  project_set  Project[]
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  email String @unique
-  password String
-  company Company @relation(fields: [company_id], references: [id] )
-  company_id Int
-  created_task_set Task[] @relation("CreatedBy")
-  assigned_task_set Task[] @relation("AssignedTo")
+  id                 Int              @id @default(autoincrement())
+  name               String?
+  email              String           @unique
+  password           String
+  company            Company          @relation(fields: [company_id], references: [id])
+  company_id         Int
+  created_task_set   Task[]           @relation("CreatedBy")
+  assigned_task_set  Task[]           @relation("AssignedTo")
   tasks_watching_set Watcher[]
-  projects Project[]
-  projectmembers ProjectMembers[]
-  refreshToken String?
-  emailVerified Boolean @default(false)
-  comment_set Comment[]
+  projects           Project[]
+  projectmembers     ProjectMembers[]
+  refreshToken       String?
+  emailVerified      Boolean          @default(false)
+  comment_set        Comment[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
 model Project {
-  id Int @id @default(autoincrement())
-  name String
-  description String
-  company Company @relation(fields: [company_id], references: [id])
-  company_id Int
-  status_set Status[]
-  task_set Task[]
-  members User[]
-  membersinproject ProjectMembers[]
+  id                           Int              @id @default(autoincrement())
+  name                         String
+  description                  String
+  company                      Company          @relation(fields: [company_id], references: [id])
+  company_id                   Int
+  status_set                   Status[]
+  task_set                     Task[]
+  members                      User[]
+  membersinproject             ProjectMembers[]
   estimated_date_of_completion DateTime?
 
   created_at DateTime @default(now())
@@ -59,29 +59,29 @@ model Project {
 }
 
 model Status {
-  id Int @id @default(autoincrement())
-  name String
-  colour String
-  project Project @relation(fields: [project_id], references: [id])
+  id         Int     @id @default(autoincrement())
+  name       String
+  colour     String
+  project    Project @relation(fields: [project_id], references: [id])
   project_id Int
-  task_set Task[]
+  task_set   Task[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
 model Task {
-  id Int @id @default(autoincrement())
-  name String
+  id          Int       @id @default(autoincrement())
+  name        String
   description String
-  status Status @relation(fields: [status_id], references: [id])
-  status_id Int
-  created_by User @relation("CreatedBy",fields: [employee_id], references: [id])
+  status      Status    @relation(fields: [status_id], references: [id])
+  status_id   Int
+  created_by  User      @relation("CreatedBy", fields: [employee_id], references: [id])
   employee_id Int
-  assigned User @relation("AssignedTo", fields: [assigned_to], references: [id])
+  assigned    User      @relation("AssignedTo", fields: [assigned_to], references: [id])
   assigned_to Int
-  project Project @relation(fields: [project_id], references: [id])
-  project_id Int
+  project     Project   @relation(fields: [project_id], references: [id])
+  project_id  Int
   watcher_set Watcher[]
   comment_set Comment[]
 
@@ -90,38 +90,37 @@ model Task {
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
-  text String
-  task_id Int
-  task Task @relation(fields: [task_id], references: [id])
+  id          Int    @id @default(autoincrement())
+  text        String
+  task_id     Int
+  task        Task   @relation(fields: [task_id], references: [id])
   employee_id Int
-  employee User @relation(fields: [employee_id], references: [id])
+  employee    User   @relation(fields: [employee_id], references: [id])
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
 model Watcher {
-  id Int @id @default(autoincrement())
-  task Task @relation(fields: [task_id], references: [id])
-  task_id Int
-  employee User @relation(fields: [employee_id], references: [id])
+  id          Int  @id @default(autoincrement())
+  task        Task @relation(fields: [task_id], references: [id])
+  task_id     Int
+  employee    User @relation(fields: [employee_id], references: [id])
   employee_id Int
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
-model ProjectMembers{
-
-  id Int @id @default(autoincrement())
-  projects Project @relation(fields:[project_id],references:[id])
+model ProjectMembers {
+  id         Int      @id @default(autoincrement())
+  projects   Project  @relation(fields: [project_id], references: [id])
   project_id Int
-  users User @relation(fields:[user_id],references:[id])
-  user_id Int
+  users      User     @relation(fields: [user_id], references: [id])
+  user_id    Int
   created_At DateTime @default(now())
+}
 
- }
 // model ProjectMembers{
 //   id Int @id @default(autoincrement())
 //   project Project @relation(fields:[project_id],references:[id])
