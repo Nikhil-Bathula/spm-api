@@ -27,7 +27,7 @@ routes.post('/signup', signup);
 routes.post('/resetPassword', resetPassword);
 routes.post('/addProjectMembers', addProjectMembers);
 routes.post('/activate', activate);
-routes.post('/addWatcher', addWatcher);
+//routes.post('/addWatcher', addWatcher);
 
 routes.get("/projects/:id", (req: Request, res: Response) => {
     console.log(`PARAM : ${req.params.id}`)
@@ -100,6 +100,18 @@ routes.post("/postComment", (req: Request, res: Response) => {
 })
 routes.post("/createTask", (req: Request, res: Response) => {
     taskController.createTask(req, res)
+})
+
+routes.post("/postWatcher", (req: Request, res: Response) => {
+
+    try {
+        watcherController.postWatchersForTask(req.body)
+            .then(data => res.status(201).json({"data" : data}))
+            .catch(err => res.status(400).json({"data": {"error": "Missing Fields"}}))
+    }catch (e){
+        console.log(e)
+        res.status(400).json({"data": {"error": "Missing Fields"}})
+    }
 })
 
 export default routes;
