@@ -1,6 +1,7 @@
 import {PrismaClient} from "@prisma/client";
 
 export type CommmentPost = {
+    comment_id:number
     text: string
     task_id: number
     employee_id: number
@@ -33,5 +34,18 @@ export class CommentRepository {
                 ...data
             }
         })
+    }
+
+    async updateCommentOnTask (data:CommmentPost) {
+
+        return await this.prisma.comment.update({
+          where: {
+            id: data.comment_id
+          },
+          data: {
+            text:data.text
+          }
+        });
+       
     }
 }
