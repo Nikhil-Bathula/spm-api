@@ -25,7 +25,7 @@ const routes = new Router();
 routes.post('/authenticate', authenticate);
 routes.post('/signup', signup);
 routes.post('/resetPassword', resetPassword);
-routes.post('/addProjectMembers', addProjectMembers);
+//routes.post('/addProjectMembers', addProjectMembers);
 routes.post('/activate', activate);
 //routes.post('/addWatcher', addWatcher);
 
@@ -111,12 +111,38 @@ routes.post("/postWatcher", (req: Request, res: Response) => {
     try {
         watcherController.postWatchersForTask(req.body)
             .then(data => res.status(201).json({"data" : data}))
-            .catch(err => res.status(400).json({"data": {"error": "Missing Fields"}}))
+            .catch(err => res.status(400).json({"data": {"error": "Something went wrong"}}))
     }catch (e){
         console.log(e)
-        res.status(400).json({"data": {"error": "Missing Fields"}})
+        res.status(400).json({"data": {"error": "Something went wrong"}})
     }
 })
+
+routes.post("/addProjectMembers", (req: Request, res: Response) => {
+
+    try {
+        projectController.addMembersToCompanyProjects(req.body)
+            .then(data => res.status(201).json({"data" : data}))
+            .catch(err => res.status(400).json({"data": {"error": "Something went wrong"}}))
+    }catch (e){
+        console.log(e)
+        res.status(400).json({"data": {"error": "Something went wrong"}})
+    }
+})
+
+routes.post("/updateComment", (req: Request, res: Response) => {
+
+  try {
+      commentController.updateCommentOnTask(req.body)
+          .then(data => res.status(201).json({"data" : data}))
+          .catch(err => res.status(400).json({"data": {"error": "Something went wrong"}}))
+  }catch (e){
+      console.log(e)
+      res.status(400).json({"data": {"error": "Something went wrong"}})
+  }
+})
+
+
 routes.get('/getAllTasks', (req: Request, res: Response) => {
   try {
     taskController.getAllTasks(req, res).then(data => {

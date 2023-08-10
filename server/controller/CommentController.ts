@@ -19,4 +19,8 @@ export class CommentController{
         return await this.commentService.postCommentOnTask(data)
     }
 
+    async updateCommentOnTask(data: CommmentPost){
+        return await this.commentService.updateCommentOnTask(data)
+    }
+
 }
