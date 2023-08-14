@@ -27,7 +27,6 @@ export const assignedProjectController = async (req: Request , res: Response) =>
         }
       }
       })
-      
       console.log(`TRY 42 : ${JSON.stringify(assigned_projects)}`)
 
       res.send(assigned_projects)

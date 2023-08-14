@@ -9,11 +9,10 @@ import {ProjectController} from "./controller/ProjectController";
 import {TaskController} from "./controller/TaskController";
 
 import { assignedProjectController } from "./controller/AssignedProjectController";
-
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
-import {WatcherController} from "./controller/WatcherController";
-
+import { WatcherController } from "./controller/WatcherController";
+import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
 
 const projectController: ProjectController = new ProjectController()
 const taskController: TaskController = new TaskController()
@@ -28,6 +27,7 @@ routes.post('/resetPassword', resetPassword);
 routes.post('/addProjectMembers', addProjectMembers);
 routes.post('/activate', activate);
 routes.post('/addWatcher', addWatcher);
+routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
 
 routes.get("/projects/:id", (req: Request, res: Response) => {
   console.log(`PARAM : ${req.params.id}`)

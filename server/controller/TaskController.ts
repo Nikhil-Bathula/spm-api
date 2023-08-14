@@ -113,4 +113,8 @@ export class TaskController {
     console.log(`TaskController - 25 : ${JSON.stringify(data)}`)
     return data
   }
+
+  async delCommentOnTask(comm_id:number) {
+    return await this.taskRepo.delCommentOnTask(comm_id)
+  }
 }
