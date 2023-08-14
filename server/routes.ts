@@ -13,7 +13,7 @@ import { assignedProjectController } from "./controller/AssignedProjectControlle
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
 import {WatcherController} from "./controller/WatcherController";
-
+import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
 
 const projectController: ProjectController = new ProjectController()
 const taskController: TaskController = new TaskController()
@@ -150,6 +150,32 @@ routes.get('/getAllTasks', (req: Request, res: Response) => {
     })
   } catch(error) {
     return res.sendStatus(400);
+  }
+});
+
+routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
+
+
+routes.get('/getAllStatusList', (req: Request, res: Response) => {
+  try {
+    taskController.getAllStatusList().then(data => {
+      res.json(data)
+    })
+  } catch(error) {
+    return res.sendStatus(400);
+  }
+});
+
+routes.post('/assignedTaskToUser', (req: Request, res: Response) => {
+  try {
+    console.log(req.body, 'req.body')
+    const task_id = Number(req.body.taskId)
+    const employee_id = Number(req.body.employeeId)
+    taskController.assignedTaskToUser(task_id, employee_id).then(data => {
+      res.json(data)
+    })
+  } catch(error) {
+    return res.sendStatus(300);
   }
 });
 

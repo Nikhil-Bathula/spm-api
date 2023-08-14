@@ -43,8 +43,14 @@ export class TaskController {
     try {
       return await this.prisma.task.findMany({
         select: {
+          id: true,
           name: true,
           description: true,
+          created_by: {
+            select: {
+              name: true
+            }
+          },
           status: {
             select: {
               name: true
@@ -73,5 +79,20 @@ export class TaskController {
     })
     console.log(`TaskController - 25 : ${JSON.stringify(data)}`)
     return data
+  }
+
+  async getAllStatusList() {
+    const data = await this.prisma.status.findMany();
+    return data
+  }
+
+  async assignedTaskToUser(task_id: number, employee_id: number) {
+    const updatedTask = await this.prisma.task.update({
+      where: { id: task_id },
+      data: { employee_id: employee_id },
+    })
+    console.log('assignedTaskToUser')
+    return updatedTask
+   
   }
 }
