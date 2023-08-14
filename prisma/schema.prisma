@@ -82,6 +82,7 @@ model Task {
   assigned_to Int
   project     Project   @relation(fields: [project_id], references: [id])
   project_id  Int
+  base64String String?
   watcher_set Watcher[]
   comment_set Comment[]
 
