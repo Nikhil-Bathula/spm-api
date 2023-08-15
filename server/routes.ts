@@ -11,7 +11,16 @@ import { TaskController } from "./controller/TaskController";
 import { assignedProjectController } from "./controller/AssignedProjectController";
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
-import { WatcherController } from "./controller/WatcherController";
+
+import {WatcherController} from "./controller/WatcherController";
+import {AuthMiddleware} from "../middlewares/AuthMiddleware";
+
+// import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
+// import {ProjectRepository} from "./repositories/ProjectRepository";
+import {CompanyRepository} from "./repositories/CompanyRepository";
+
+
+
 import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
 
 
@@ -19,17 +28,21 @@ const projectController: ProjectController = new ProjectController()
 const taskController: TaskController = new TaskController()
 const commentController: CommentController = new CommentController()
 const watcherController: WatcherController = new WatcherController()
+const authMiddleware: AuthMiddleware = new AuthMiddleware()
+// const projectRepo: ProjectRepository = new ProjectRepository()
+const companyRepo: CompanyRepository = new CompanyRepository()
 
 const routes = new Router();
 
 routes.post('/authenticate', authenticate);
 routes.post('/signup', signup);
 routes.post('/resetPassword', resetPassword);
-routes.post('/addProjectMembers', addProjectMembers);
+//routes.post('/addProjectMembers', addProjectMembers);
 routes.post('/activate', activate);
 routes.post('/addWatcher', addWatcher);
 routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
 
+//routes.post('/addWatcher', addWatcher);
 
 
 routes.get("/projects/:id", (req: Request, res: Response) => {
@@ -109,6 +122,50 @@ routes.post("/createTask", (req: Request, res: Response) => {
   })
 })
 
+routes.post("/postWatcher", (req: Request, res: Response) => {
+
+    try {
+        watcherController.postWatchersForTask(req.body)
+            .then(data => res.status(201).json({"data" : data}))
+            .catch(err => res.status(400).json({"data": {"error": "Something went wrong"}}))
+    }catch (e){
+        console.log(e)
+        res.status(400).json({"data": {"error": "Something went wrong"}})
+    }
+})
+
+// <<<<<<< HEAD
+
+// routes.post("/upload", authMiddleware.authenticateUser, (req: Request, res: Response) =>{
+
+// })
+
+// =======
+routes.post("/addProjectMembers", (req: Request, res: Response) => {
+
+    try {
+        projectController.addMembersToCompanyProjects(req.body)
+            .then(data => res.status(201).json({"data" : data}))
+            .catch(err => res.status(400).json({"data": {"error": "Something went wrong"}}))
+    }catch (e){
+        console.log(e)
+        res.status(400).json({"data": {"error": "Something went wrong"}})
+    }
+})
+
+routes.post("/updateComment", (req: Request, res: Response) => {
+
+  try {
+      commentController.updateCommentOnTask(req.body)
+          .then(data => res.status(201).json({"data" : data}))
+          .catch(err => res.status(400).json({"data": {"error": "Something went wrong"}}))
+  }catch (e){
+      console.log(e)
+      res.status(400).json({"data": {"error": "Something went wrong"}})
+  }
+})
+
+
 routes.get('/getAllTasks', (req: Request, res: Response) => {
   try {
     taskController.getAllTasks(req, res).then(data => {
@@ -119,10 +176,25 @@ routes.get('/getAllTasks', (req: Request, res: Response) => {
   }
 });
 
+
+routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
+
+
+routes.get('/getAllStatusList', (req: Request, res: Response) => {
+  try {
+    taskController.getAllStatusList().then(data => {
+      res.json(data)
+    })
+  } catch(error) {
+    return res.sendStatus(400);
+  }
+});
+
 routes.post('/assignedTaskToUser', (req: Request, res: Response) => {
   try {
-    const task_id = parseInt(req.body.taskId)
-    const employee_id = parseInt(req.body.employeeId)
+    console.log(req.body, 'req.body')
+    const task_id = Number(req.body.taskId)
+    const employee_id = Number(req.body.employeeId)
     taskController.assignedTaskToUser(task_id, employee_id).then(data => {
       res.json(data)
     })
@@ -130,6 +202,7 @@ routes.post('/assignedTaskToUser', (req: Request, res: Response) => {
     return res.sendStatus(300);
   }
 });
+
 
 routes.delete('/deleteTask/:id', (req: Request, res: Response) => {
   try {
@@ -143,5 +216,20 @@ routes.delete('/deleteTask/:id', (req: Request, res: Response) => {
     return res.sendStatus(400);
   }
 });
+
+routes.post("/getCompanyByDomain", (req : Request, res: Response) => {
+    companyRepo.findCompanyByDomain(req.body.email)
+    res.sendStatus(200)
+})
+
+routes.get("/projectUsers/:id", (req: Request, res: Response) => {
+    projectController.getUsersInAProject(parseInt(req.params.id)).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.status(400).json({"message" : "Bad Request"})
+    })
+})
+
+
 
 export default routes;

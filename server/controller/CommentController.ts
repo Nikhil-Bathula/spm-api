@@ -22,4 +22,9 @@ export class CommentController{
     async deleteCommentOnTask(comment_id: number) {
         return await this.commentService.deleteCommentOnTask(comment_id)
     }
+
+    async updateCommentOnTask(data: CommmentPost){
+        return await this.commentService.updateCommentOnTask(data)
+    }
+
 }
