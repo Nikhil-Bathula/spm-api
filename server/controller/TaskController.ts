@@ -46,6 +46,8 @@ export class TaskController {
           id: true,
           name: true,
           description: true,
+          base64String: true,
+          fileName: true,
           created_by: {
             select: {
               name: true
@@ -86,13 +88,14 @@ export class TaskController {
     return data
   }
 
-  async assignedTaskToUser(task_id: number, employee_id: number) {
+  async assignedTaskToUser(task_id: number, employee_id: number, req: Request, res: Response) {
     const updatedTask = await this.prisma.task.update({
       where: { id: task_id },
       data: { employee_id: employee_id },
     })
-    console.log('assignedTaskToUser')
-    return updatedTask
+    console.log('assignedTaskToUser', updatedTask)
+    const getAllTaskList = await this.getAllTasks(req, res);
+    return getAllTaskList;
    
   }
 }
