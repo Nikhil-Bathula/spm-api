@@ -32,6 +32,7 @@ model User {
   created_task_set   Task[]           @relation("CreatedBy")
   assigned_task_set  Task[]           @relation("AssignedTo")
   tasks_watching_set Watcher[]
+
   projects           Project[]
   projectmembers     ProjectMembers[]
   refreshToken       String?
@@ -85,6 +86,7 @@ model Task {
   base64String String?
   watcher_set Watcher[]
   comment_set Comment[]
+  attachments TaskAttachment[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -121,6 +123,7 @@ model ProjectMembers {
   user_id    Int
   created_At DateTime @default(now())
 }
+
 
 // model ProjectMembers{
 //   id Int @id @default(autoincrement())

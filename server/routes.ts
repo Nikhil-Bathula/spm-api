@@ -13,12 +13,18 @@ import { assignedProjectController } from "./controller/AssignedProjectControlle
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
 import {WatcherController} from "./controller/WatcherController";
+
+import {AuthMiddleware} from "../middlewares/AuthMiddleware";
+
+
 import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
+
 
 const projectController: ProjectController = new ProjectController()
 const taskController: TaskController = new TaskController()
 const commentController: CommentController = new CommentController()
 const watcherController: WatcherController = new WatcherController()
+const authMiddleware: AuthMiddleware = new AuthMiddleware()
 
 const routes = new Router();
 
@@ -117,6 +123,7 @@ routes.post("/postWatcher", (req: Request, res: Response) => {
         res.status(400).json({"data": {"error": "Something went wrong"}})
     }
 })
+
 
 routes.post("/addProjectMembers", (req: Request, res: Response) => {
 
