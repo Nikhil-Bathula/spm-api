@@ -1,4 +1,10 @@
 import {PrismaClient} from "@prisma/client";
+import {Request,Response} from "express";
+
+export type WatcherPost = {
+    task_id: number
+    employee_id: number
+}
 
 export class WatcherRepository{
     private prisma: PrismaClient
@@ -16,6 +22,14 @@ export class WatcherRepository{
                 employee: true,
                 created_at: true,
                 updated_at: true
+            }
+        })
+    }
+
+    async PostWatchersForTask(data: WatcherPost){
+        return await this.prisma.watcher.create({
+            data: {
+                ...data
             }
         })
     }

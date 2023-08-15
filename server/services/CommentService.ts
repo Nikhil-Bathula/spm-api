@@ -13,4 +13,8 @@ export class CommentService{
     async postCommentOnTask(data: CommmentPost) {
         return await this.commentRepo.postCommentOnTask(data)
     }
+
+    async updateCommentOnTask(data: CommmentPost) {
+        return await this.commentRepo.updateCommentOnTask(data)
+    }
 }
