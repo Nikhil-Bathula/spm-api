@@ -40,10 +40,10 @@ export class CommentRepository {
     async deleteCommentOnTask(comment_id: number) {
         return await this.prisma.comment.delete({
             where: {
-                id:comment_id
+                id: comment_id
             }
         })
-
+    }
     async updateCommentOnTask (data:CommmentPost) {
 
         const comment = await this.prisma.comment.update({

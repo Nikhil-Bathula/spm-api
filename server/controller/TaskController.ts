@@ -84,7 +84,7 @@ export class TaskController {
   
   async deleteTask(task_id: number) {
     return await this.taskRepo.deleteTask(task_id)
-
+  }
   async getAllStatusList() {
     const data = await this.prisma.status.findMany();
     return data
@@ -100,5 +100,5 @@ export class TaskController {
    
   }
 }
-}
+
 
