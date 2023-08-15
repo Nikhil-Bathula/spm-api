@@ -204,8 +204,11 @@ routes.post("/getCompanyByDomain", (req : Request, res: Response) => {
 })
 
 routes.get("/projectUsers/:id", (req: Request, res: Response) => {
-    const users = projectController.getUsersInAProject(parseInt(req.params.id))
-    res.json(users)
+    projectController.getUsersInAProject(parseInt(req.params.id)).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.status(400).json({"message" : "Bad Request"})
+    })
 })
 
 
