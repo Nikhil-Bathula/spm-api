@@ -13,6 +13,7 @@ export class TaskController {
   async getAssignedTasks(employee_id: number) {
     return await this.taskRepo.getAssignedTasks(employee_id)
   }
+  
   async createTask(req: Request, res: Response) {
     // console.log(`DATA : ${{...req.body}}`)
     console.log(`DATA : ${JSON.stringify(req.body)}`)
@@ -113,8 +114,18 @@ export class TaskController {
     console.log(`TaskController - 25 : ${JSON.stringify(data)}`)
     return data
   }
+  
+  async deleteTask(task_id: number) {
+    return await this.taskRepo.deleteTask(task_id)
+  }
 
-  async delCommentOnTask(comm_id:number) {
-    return await this.taskRepo.delCommentOnTask(comm_id)
+  async assignedTaskToUser(task_id: number, employee_id: number) {
+    const updatedTask = await this.prisma.task.update({
+      where: { id: task_id },
+      data: { employee_id: employee_id },
+    })
+    console.log('assignedTaskToUser')
+    return updatedTask
+   
   }
 }

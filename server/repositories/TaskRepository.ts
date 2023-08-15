@@ -60,10 +60,10 @@ export class TaskRepository {
         }
     }
 
-    async delCommentOnTask(comm_id: number) {
-        return await this.prisma.comment.delete({
+    async deleteTask(task_id: number) {
+        return await this.prisma.task.delete({
             where: {
-                id:comm_id
+                id:task_id
             }
         })
     }

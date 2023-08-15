@@ -556,6 +556,8 @@ export const signup = async (req: Request, res: Response) => {
     res.send({ status: 500, response: error, message: 'Internal Server Error' });
   }
 
+  
+
   app.post('/api/addUserToCompany', async (req: Request, res: Response) => {
     const { name, email } = req.body;
 

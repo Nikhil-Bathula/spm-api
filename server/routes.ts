@@ -6,13 +6,14 @@ import { resetPassword } from './controller/resetPassword';
 import { addProjectMembers } from './controller/addProjectMembers';
 import { activate } from './controller/login';
 import {ProjectController} from "./controller/ProjectController";
-import {TaskController} from "./controller/TaskController";
+import { TaskController } from "./controller/TaskController";
 
 import { assignedProjectController } from "./controller/AssignedProjectController";
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
 import { WatcherController } from "./controller/WatcherController";
 import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
+
 
 const projectController: ProjectController = new ProjectController()
 const taskController: TaskController = new TaskController()
@@ -28,6 +29,8 @@ routes.post('/addProjectMembers', addProjectMembers);
 routes.post('/activate', activate);
 routes.post('/addWatcher', addWatcher);
 routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
+
+
 
 routes.get("/projects/:id", (req: Request, res: Response) => {
   console.log(`PARAM : ${req.params.id}`)
@@ -112,6 +115,31 @@ routes.get('/getAllTasks', (req: Request, res: Response) => {
       res.json(data)
     })
   } catch(error) {
+    return res.sendStatus(400);
+  }
+});
+
+routes.post('/assignedTaskToUser', (req: Request, res: Response) => {
+  try {
+    const task_id = parseInt(req.body.taskId)
+    const employee_id = parseInt(req.body.employeeId)
+    taskController.assignedTaskToUser(task_id, employee_id).then(data => {
+      res.json(data)
+    })
+  } catch(error) {
+    return res.sendStatus(300);
+  }
+});
+
+routes.delete('/deleteTask/:id', (req: Request, res: Response) => {
+  try {
+    taskController.deleteTask(parseInt(req.params.id)).then(data => {
+      res.sendStatus(204);
+    }).catch(err => {
+      res.sendStatus(400);
+    })
+
+  } catch (error) {
     return res.sendStatus(400);
   }
 });
