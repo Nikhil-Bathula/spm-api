@@ -37,6 +37,7 @@ model User {
   refreshToken String?
   emailVerified Boolean @default(false)
   comment_set Comment[]
+  uploads_set TaskAttachment[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -84,6 +85,7 @@ model Task {
   project_id Int
   watcher_set Watcher[]
   comment_set Comment[]
+  attachments TaskAttachment[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -122,6 +124,18 @@ model ProjectMembers{
   created_At DateTime @default(now())
 
  }
+
+model TaskAttachment{
+  id Int @id @default(autoincrement())
+  file_name String
+  uploaded_by User @relation(fields: [uploaded_by_id], references: [id])
+  uploaded_by_id Int
+  task Task @relation(fields: [task_id], references: [id])
+  task_id Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
 // model ProjectMembers{
 //   id Int @id @default(autoincrement())
 //   project Project @relation(fields:[project_id],references:[id])

@@ -13,12 +13,14 @@ import { assignedProjectController } from "./controller/AssignedProjectControlle
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
 import {WatcherController} from "./controller/WatcherController";
+import {AuthMiddleware} from "../middlewares/AuthMiddleware";
 
 
 const projectController: ProjectController = new ProjectController()
 const taskController: TaskController = new TaskController()
 const commentController: CommentController = new CommentController()
 const watcherController: WatcherController = new WatcherController()
+const authMiddleware: AuthMiddleware = new AuthMiddleware()
 
 const routes = new Router();
 
@@ -100,6 +102,10 @@ routes.post("/postComment", (req: Request, res: Response) => {
 })
 routes.post("/createTask", (req: Request, res: Response) => {
     taskController.createTask(req, res)
+})
+
+routes.post("/upload", authMiddleware.authenticateUser, (req: Request, res: Response) =>{
+
 })
 
 export default routes;
