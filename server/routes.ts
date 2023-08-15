@@ -15,9 +15,14 @@ import {CommentController} from "./controller/CommentController";
 import {WatcherController} from "./controller/WatcherController";
 import {AuthMiddleware} from "../middlewares/AuthMiddleware";
 
-import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
-import {ProjectRepository} from "./repositories/ProjectRepository";
+// import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
+// import {ProjectRepository} from "./repositories/ProjectRepository";
 import {CompanyRepository} from "./repositories/CompanyRepository";
+
+
+
+import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
+
 
 const projectController: ProjectController = new ProjectController()
 const taskController: TaskController = new TaskController()
@@ -202,5 +207,6 @@ routes.get("/projectUsers/:id", (req: Request, res: Response) => {
     const users = projectController.getUsersInAProject(parseInt(req.params.id))
     res.json(users)
 })
+
 
 export default routes;

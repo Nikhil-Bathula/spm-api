@@ -32,13 +32,11 @@ model User {
   created_task_set   Task[]           @relation("CreatedBy")
   assigned_task_set  Task[]           @relation("AssignedTo")
   tasks_watching_set Watcher[]
-  projects Project[]
-  projectmembers ProjectMembers[]
-  refreshToken String?
-  emailVerified Boolean @default(false)
-  comment_set Comment[]
-  uploads_set TaskAttachment[]
-
+  projects           Project[]
+  projectmembers     ProjectMembers[]
+  refreshToken       String?
+  emailVerified      Boolean          @default(false)
+  comment_set        Comment[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -128,17 +126,17 @@ model ProjectMembers {
 }
 
 
-model TaskAttachment{
-  id Int @id @default(autoincrement())
-  file_name String
-  uploaded_by User @relation(fields: [uploaded_by_id], references: [id])
-  uploaded_by_id Int
-  task Task @relation(fields: [task_id], references: [id])
-  task_id Int
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-}
+// model TaskAttachment{
+//   id Int @id @default(autoincrement())
+//   file_name String
+//   uploaded_by User @relation(fields: [uploaded_by_id], references: [id])
+//   uploaded_by_id Int
+//   task Task @relation(fields: [task_id], references: [id])
+//   task_id Int
+//
+//   created_at DateTime @default(now())
+//   updated_at DateTime @updatedAt
+// }
 
 // model ProjectMembers{
 //   id Int @id @default(autoincrement())
