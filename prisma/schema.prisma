@@ -87,7 +87,7 @@ model Task {
   base64String String?
   watcher_set Watcher[]
   comment_set Comment[]
-  attachments TaskAttachment[]
+  // attachments TaskAttachment[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

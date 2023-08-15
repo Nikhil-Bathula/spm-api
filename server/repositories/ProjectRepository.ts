@@ -60,4 +60,9 @@ export class ProjectRepository {
         //     }
         // })
     }
+
+    async getProjectList(){
+        return await this.prisma.project.findMany({})
+    }
+
 }
