@@ -22,6 +22,7 @@ import {CompanyRepository} from "./repositories/CompanyRepository";
 
 
 import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
+import {log} from "util";
 
 
 const projectController: ProjectController = new ProjectController()
@@ -154,7 +155,10 @@ routes.post("/updateComment", (req: Request, res: Response) => {
   try {
       commentController.updateCommentOnTask(req.body)
           .then(data => res.status(201).json({"data" : data}))
-          .catch(err => res.status(400).json({"data": {"error": "Something went wrong"}}))
+          .catch(err => {
+              console.log(`ERROR 159 - ${err}`)
+              res.status(400).json({"data": {"error": "Something went wrong"}})
+          })
   }catch (e){
       console.log(e)
       res.status(400).json({"data": {"error": "Something went wrong"}})
@@ -211,5 +215,12 @@ routes.get("/projectUsers/:id", (req: Request, res: Response) => {
     })
 })
 
+routes.get("/allProjects", (req: Request, res: Response) => {
+    projectController.getProjectList().then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.status(400).json({"message": "Bad Request"})
+    })
+})
 
 export default routes;

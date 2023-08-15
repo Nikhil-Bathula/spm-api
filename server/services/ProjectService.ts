@@ -21,4 +21,8 @@ export class ProjectService {
     async getUsersInAProject(project_id: number){
         return await this.projectRepo.getUsersInAProject(project_id)
     }
+
+    async getProjectList(){
+        return this.projectRepo.getProjectList()
+    }
 }

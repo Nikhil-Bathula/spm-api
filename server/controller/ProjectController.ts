@@ -26,4 +26,8 @@ export class ProjectController {
         return await this.projectService.getUsersInAProject(project_id)
     }
 
+    async getProjectList(){
+        return await this.projectService.getProjectList()
+    }
+
 }
