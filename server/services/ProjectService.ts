@@ -13,4 +13,12 @@ export class ProjectService {
     async addMembersToCompanyProjects(data:ProjectMembersPost): Promise<object> {
         return await this.projectRepo.addMembersToCompanyProjects(data)
     }
+
+    async findProjectByDomain(domain: String){
+        return await this.projectRepo.findProjectByDomain(domain)
+    }
+
+    async getUsersInAProject(project_id: number){
+        return await this.projectRepo.getUsersInAProject(project_id)
+    }
 }

@@ -13,8 +13,12 @@ import { assignedProjectController } from "./controller/AssignedProjectControlle
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
 import {WatcherController} from "./controller/WatcherController";
-
 import {AuthMiddleware} from "../middlewares/AuthMiddleware";
+
+// import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
+// import {ProjectRepository} from "./repositories/ProjectRepository";
+import {CompanyRepository} from "./repositories/CompanyRepository";
+
 
 
 import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
@@ -25,6 +29,8 @@ const taskController: TaskController = new TaskController()
 const commentController: CommentController = new CommentController()
 const watcherController: WatcherController = new WatcherController()
 const authMiddleware: AuthMiddleware = new AuthMiddleware()
+// const projectRepo: ProjectRepository = new ProjectRepository()
+const companyRepo: CompanyRepository = new CompanyRepository()
 
 const routes = new Router();
 
@@ -124,7 +130,13 @@ routes.post("/postWatcher", (req: Request, res: Response) => {
     }
 })
 
+// <<<<<<< HEAD
 
+// routes.post("/upload", authMiddleware.authenticateUser, (req: Request, res: Response) =>{
+
+// })
+
+// =======
 routes.post("/addProjectMembers", (req: Request, res: Response) => {
 
     try {
@@ -185,5 +197,16 @@ routes.post('/assignedTaskToUser', (req: Request, res: Response) => {
     return res.sendStatus(300);
   }
 });
+
+routes.post("/getCompanyByDomain", (req : Request, res: Response) => {
+    companyRepo.findCompanyByDomain(req.body.email)
+    res.sendStatus(200)
+})
+
+routes.get("/projectUsers/:id", (req: Request, res: Response) => {
+    const users = projectController.getUsersInAProject(parseInt(req.params.id))
+    res.json(users)
+})
+
 
 export default routes;

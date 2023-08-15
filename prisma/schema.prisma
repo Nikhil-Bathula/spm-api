@@ -32,7 +32,6 @@ model User {
   created_task_set   Task[]           @relation("CreatedBy")
   assigned_task_set  Task[]           @relation("AssignedTo")
   tasks_watching_set Watcher[]
-
   projects           Project[]
   projectmembers     ProjectMembers[]
   refreshToken       String?
@@ -47,6 +46,8 @@ model Project {
   id                           Int              @id @default(autoincrement())
   name                         String
   description                  String
+  budget String?
+  technologies String?
   company                      Company          @relation(fields: [company_id], references: [id])
   company_id                   Int
   status_set                   Status[]
@@ -124,6 +125,18 @@ model ProjectMembers {
   created_At DateTime @default(now())
 }
 
+
+// model TaskAttachment{
+//   id Int @id @default(autoincrement())
+//   file_name String
+//   uploaded_by User @relation(fields: [uploaded_by_id], references: [id])
+//   uploaded_by_id Int
+//   task Task @relation(fields: [task_id], references: [id])
+//   task_id Int
+//
+//   created_at DateTime @default(now())
+//   updated_at DateTime @updatedAt
+// }
 
 // model ProjectMembers{
 //   id Int @id @default(autoincrement())
