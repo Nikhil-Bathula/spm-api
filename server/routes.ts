@@ -6,12 +6,12 @@ import { resetPassword } from './controller/resetPassword';
 import { addProjectMembers } from './controller/addProjectMembers';
 import { activate } from './controller/login';
 import {ProjectController} from "./controller/ProjectController";
-import {TaskController} from "./controller/TaskController";
+import { TaskController } from "./controller/TaskController";
 
 import { assignedProjectController } from "./controller/AssignedProjectController";
-
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
+
 import {WatcherController} from "./controller/WatcherController";
 import {AuthMiddleware} from "../middlewares/AuthMiddleware";
 
@@ -39,7 +39,11 @@ routes.post('/signup', signup);
 routes.post('/resetPassword', resetPassword);
 //routes.post('/addProjectMembers', addProjectMembers);
 routes.post('/activate', activate);
+routes.post('/addWatcher', addWatcher);
+routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
+
 //routes.post('/addWatcher', addWatcher);
+
 
 routes.get("/projects/:id", (req: Request, res: Response) => {
   console.log(`PARAM : ${req.params.id}`)
@@ -172,6 +176,7 @@ routes.get('/getAllTasks', (req: Request, res: Response) => {
   }
 });
 
+
 routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
 
 
@@ -198,6 +203,20 @@ routes.post('/assignedTaskToUser', (req: Request, res: Response) => {
   }
 });
 
+
+routes.delete('/deleteTask/:id', (req: Request, res: Response) => {
+  try {
+    taskController.deleteTask(parseInt(req.params.id)).then(data => {
+      res.sendStatus(204);
+    }).catch(err => {
+      res.sendStatus(400);
+    })
+
+  } catch (error) {
+    return res.sendStatus(400);
+  }
+});
+
 routes.post("/getCompanyByDomain", (req : Request, res: Response) => {
     companyRepo.findCompanyByDomain(req.body.email)
     res.sendStatus(200)
@@ -210,6 +229,7 @@ routes.get("/projectUsers/:id", (req: Request, res: Response) => {
         res.status(400).json({"message" : "Bad Request"})
     })
 })
+
 
 
 export default routes;
