@@ -18,6 +18,12 @@ export class ProjectController {
         return await this.projectService.addMembersToCompanyProjects(data)
     }
 
- 
+    async findProjectByDomain(domain: String) {
+        return await this.projectService.findProjectByDomain(domain)
+    }
+
+    async getUsersInAProject(project_id: number){
+        return await this.projectService.getUsersInAProject(project_id)
+    }
 
 }

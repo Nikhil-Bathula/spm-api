@@ -4,6 +4,7 @@ const prisma = new PrismaClient()
 
 const createCompany = async () => {
 
+
     await prisma.company.createMany({
         data: [{
             id: 1,

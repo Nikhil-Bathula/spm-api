@@ -25,4 +25,37 @@ export class ProjectRepository {
             }
         })
     }
+
+    async findProjectByDomain(domain: String){
+        // const company
+    }
+
+    async getUsersInAProject(project_id: number){
+
+        console.log(`PROJECT ID : ${project_id}`)
+        const users = await this.prisma.projectMembers.findMany({
+            where: {
+                project_id : {equals: project_id}
+            }
+        })
+        console.log(``)
+
+        return users;
+
+        //     await this.prisma.user.findMany({
+        //     where : {
+        //         projectmembers: {
+        //             project_
+        //         }
+        //     }
+        // })
+
+        // return await this.prisma.project.findFirst({
+        //     where: {
+        //         id : {equals: project_id}
+        //     }, select : {
+        //         members: true
+        //     }
+        // })
+    }
 }
