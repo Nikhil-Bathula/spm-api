@@ -12,6 +12,7 @@ const createCompany = async () => {
             country: "Canada",
             domain: "spm.ca",
             industry: "Technology",
+
         },{
             id : 2,
             name : "Google",

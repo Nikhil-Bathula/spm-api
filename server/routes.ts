@@ -6,12 +6,12 @@ import { resetPassword } from './controller/resetPassword';
 import { addProjectMembers } from './controller/addProjectMembers';
 import { activate } from './controller/login';
 import {ProjectController} from "./controller/ProjectController";
-import {TaskController} from "./controller/TaskController";
+import { TaskController } from "./controller/TaskController";
 
 import { assignedProjectController } from "./controller/AssignedProjectController";
-
 import { addWatcher } from './controller/addWatcher';
 import {CommentController} from "./controller/CommentController";
+
 import {WatcherController} from "./controller/WatcherController";
 import {AuthMiddleware} from "../middlewares/AuthMiddleware";
 
@@ -22,6 +22,7 @@ import {CompanyRepository} from "./repositories/CompanyRepository";
 
 
 import { getUsersByCompanyId } from "./controller/getUsersByCompanyId";
+import {log} from "util";
 
 
 const projectController: ProjectController = new ProjectController()
@@ -39,7 +40,11 @@ routes.post('/signup', signup);
 routes.post('/resetPassword', resetPassword);
 //routes.post('/addProjectMembers', addProjectMembers);
 routes.post('/activate', activate);
+routes.post('/addWatcher', addWatcher);
+routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
+
 //routes.post('/addWatcher', addWatcher);
+
 
 routes.get("/projects/:id", (req: Request, res: Response) => {
   console.log(`PARAM : ${req.params.id}`)
@@ -154,7 +159,10 @@ routes.post("/updateComment", (req: Request, res: Response) => {
   try {
       commentController.updateCommentOnTask(req.body)
           .then(data => res.status(201).json({"data" : data}))
-          .catch(err => res.status(400).json({"data": {"error": "Something went wrong"}}))
+          .catch(err => {
+              console.log(`ERROR 159 - ${err}`)
+              res.status(400).json({"data": {"error": "Something went wrong"}})
+          })
   }catch (e){
       console.log(e)
       res.status(400).json({"data": {"error": "Something went wrong"}})
@@ -171,6 +179,7 @@ routes.get('/getAllTasks', (req: Request, res: Response) => {
     return res.sendStatus(400);
   }
 });
+
 
 routes.get('/getUsersByCompanyId/:id', getUsersByCompanyId);
 
@@ -198,14 +207,39 @@ routes.post('/assignedTaskToUser', (req: Request, res: Response) => {
   }
 });
 
+
+routes.delete('/deleteTask/:id', (req: Request, res: Response) => {
+  try {
+    taskController.deleteTask(parseInt(req.params.id)).then(data => {
+      res.sendStatus(204);
+    }).catch(err => {
+      res.sendStatus(400);
+    })
+
+  } catch (error) {
+    return res.sendStatus(400);
+  }
+});
+
 routes.post("/getCompanyByDomain", (req : Request, res: Response) => {
     companyRepo.findCompanyByDomain(req.body.email)
     res.sendStatus(200)
 })
 
 routes.get("/projectUsers/:id", (req: Request, res: Response) => {
-    const users = projectController.getUsersInAProject(parseInt(req.params.id))
-    res.json(users)
+    projectController.getUsersInAProject(parseInt(req.params.id)).then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.status(400).json({"message" : "Bad Request"})
+    })
+})
+
+routes.get("/allProjects", (req: Request, res: Response) => {
+    projectController.getProjectList().then(data => {
+        res.json(data)
+    }).catch(err => {
+        res.status(400).json({"message": "Bad Request"})
+    })
 })
 
 

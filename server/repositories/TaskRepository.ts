@@ -60,4 +60,12 @@ export class TaskRepository {
         }
     }
 
+    async deleteTask(task_id: number) {
+        return await this.prisma.task.delete({
+            where: {
+                id:task_id
+            }
+        })
+    }
+
 }

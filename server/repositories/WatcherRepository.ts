@@ -27,10 +27,14 @@ export class WatcherRepository{
     }
 
     async PostWatchersForTask(data: WatcherPost){
-        return await this.prisma.watcher.create({
+
+        const watcher = await this.prisma.watcher.create({
             data: {
                 ...data
             }
         })
+        console.log(JSON.stringify(watcher))
+        return watcher;
     }
+
 }

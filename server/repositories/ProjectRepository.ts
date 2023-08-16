@@ -33,14 +33,16 @@ export class ProjectRepository {
     async getUsersInAProject(project_id: number){
 
         console.log(`PROJECT ID : ${project_id}`)
-        const users = await this.prisma.projectMembers.findMany({
+        return await this.prisma.projectMembers.findMany({
             where: {
                 project_id : {equals: project_id}
+            }, include : {
+                users : true
             }
         })
-        console.log(``)
+        // console.log(`USERS - 41 ${JSON.stringify(users)}`)
 
-        return users;
+        // return users;
 
         //     await this.prisma.user.findMany({
         //     where : {
@@ -58,4 +60,9 @@ export class ProjectRepository {
         //     }
         // })
     }
+
+    async getProjectList(){
+        return await this.prisma.project.findMany({})
+    }
+
 }

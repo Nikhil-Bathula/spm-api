@@ -36,16 +36,26 @@ export class CommentRepository {
         })
     }
 
+
+    async deleteCommentOnTask(comment_id: number) {
+        return await this.prisma.comment.delete({
+            where: {
+                id: comment_id
+            }
+        })
+    }
     async updateCommentOnTask (data:CommmentPost) {
 
-        return await this.prisma.comment.update({
-          where: {
-            id: data.comment_id
-          },
-          data: {
-            text:data.text
-          }
+        const comment = await this.prisma.comment.update({
+            where: {
+                id: data.comment_id
+            },
+            data: {
+                text: data.text
+            }
         });
+        console.log(`UPDATED COMMENT : ${comment}`)
+        return comment;
        
     }
 }

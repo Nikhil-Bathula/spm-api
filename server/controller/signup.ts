@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import app from '../app';
+import { getUsersByCompanyId } from './getUsersByCompanyId';
 const { PrismaClient } = require('@prisma/client');
 const nodemailer = require('nodemailer');
 import {CompanyRepository} from "../repositories/CompanyRepository";
@@ -567,4 +569,26 @@ export const signup = async (req: Request, res: Response) => {
   } catch (error) {
     res.send({ status: 500, response: error, message: 'Internal Server Error' });
   }
+
+  
+
+  app.post('/api/addUserToCompany', async (req: Request, res: Response) => {
+    const { name, email } = req.body;
+
+    try {
+      const user = await prisma.user.create({
+        data: {
+          name,
+          email,
+          company: {
+            connect: { id: getUsersByCompanyId }
+          },
+        },
+      });
+      console.log('User added to company:', user);
+    }
+    catch {
+      console.log('Error');
+    }
+  })
 }
