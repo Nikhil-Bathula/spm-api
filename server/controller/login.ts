@@ -4,14 +4,25 @@ import { verifyRefreshJwt } from '../../middlewares/authentication';
 
 const prisma = new PrismaClient();
 
+// export type userObj = {
+//   companyId:number
+//   email: string
+// }
+
 export const activate = async (req: Request, res: Response) => {
-  const email = await verifyRefreshJwt(req.body.userToken)
+  // let userObj = {
+  //   email: '',
+  //   companyId: 0
+  // }
+  const userObj: any = await verifyRefreshJwt(req.body.userToken)
+  console.log(userObj, 'userObj')
   const updateUser = await prisma.User.update({
     where: {
-      email: email
+      email: userObj?.email
     },
     data: {
-      emailVerified: true
+      emailVerified: true,
+      company_id: userObj?.companyId
     },
   });
   res.send({ status: 200, message: 'Account Activated Successfully' });

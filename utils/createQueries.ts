@@ -86,27 +86,27 @@ const createProject = async () => {
 
 const createUser = async () => {
 
-    await prisma.user.createMany({
-        data: [{
-            id: 1,
-            email: "codingoptimists@outlook.com",
-            name: "Noob46",
-            company_id: 1,
-            password: "secure123",
-        }, {
-            id: 2,
-            email: "divyani.parte27@gmail.com",
-            name: "Divyani Parte",
-            company_id: 2,
-            password: "MujheBhukLagiHain",
-        }, {
-            id: 3,
-            email: "nikhilbathula@outlook.com",
-            name: "Nikhil Bathula",
-            company_id: 3,
-            password: "DilDaMaamla",
-        }]
-    })
+    // await prisma.user.createMany({
+    //     data: [{
+    //         id: 1,
+    //         email: "codingoptimists@outlook.com",
+    //         name: "Noob46",
+    //         company_id: 1,
+    //         password: "secure123",
+    //     }, {
+    //         id: 2,
+    //         email: "divyani.parte27@gmail.com",
+    //         name: "Divyani Parte",
+    //         company_id: 2,
+    //         password: "MujheBhukLagiHain",
+    //     }, {
+    //         id: 3,
+    //         email: "nikhilbathula@outlook.com",
+    //         name: "Nikhil Bathula",
+    //         company_id: 3,
+    //         password: "DilDaMaamla",
+    //     }]
+    // })
 
     // await prisma.user.create({
     //     data: {

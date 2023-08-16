@@ -15,10 +15,14 @@ export class TaskController {
   }
   async createTask(req: Request, res: Response) {
     try {
+      const user_id = await this.prisma.task.findFirst({
+  
+      })
+
+      console.log(`USER ID LATEST : ${JSON.stringify(user_id)}`);
+
       return await this.prisma.task.create({
-        data: {
-          ...req.body
-        }
+        data: req.body
       })
     } catch (err) {
       console.log(`INSIDE CATCH - 39`)
