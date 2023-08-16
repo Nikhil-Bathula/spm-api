@@ -5,8 +5,10 @@ import app from '../app';
 import { getUsersByCompanyId } from './getUsersByCompanyId';
 const { PrismaClient } = require('@prisma/client');
 const nodemailer = require('nodemailer');
+import {CompanyRepository} from "../repositories/CompanyRepository";
 
 const prisma = new PrismaClient();
+const companyRepo: CompanyRepository = new CompanyRepository()
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -18,10 +20,22 @@ export const signup = async (req: Request, res: Response) => {
         
       
         console.log("REQUEST BODY : ", req.body)
-        const user = await prisma.user.create({ data: { ...req.body } });
+        const user_id = await prisma.user.findFirst({
+  
+        })
+
+        console.log(`USER ID LATEST : ${JSON.stringify(user_id)}`);
+
+        const user = await prisma.user.create({ data: {...req.body} });
         
-        const userEmail = user.email;
-        const userToken = jwt.sign(userEmail, process.env.SPM_JWT_REFRESH)
+        const userObj = {
+          email: '',
+          companyId: 0
+        }
+        userObj.email = user.email;
+        const company_id_retrieved = await companyRepo.findCompanyByDomain(user.email)
+        userObj.companyId = company_id_retrieved;
+        const userToken = jwt.sign(userObj, process.env.SPM_JWT_REFRESH)
         const transporter = nodemailer.createTransport({
           host: "smtp.forwardemail.net",
           port: 465,

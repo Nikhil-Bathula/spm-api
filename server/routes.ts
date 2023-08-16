@@ -199,7 +199,7 @@ routes.post('/assignedTaskToUser', (req: Request, res: Response) => {
     console.log(req.body, 'req.body')
     const task_id = Number(req.body.taskId)
     const employee_id = Number(req.body.employeeId)
-    taskController.assignedTaskToUser(task_id, employee_id).then(data => {
+    taskController.assignedTaskToUser(task_id, employee_id, req, res).then(data => {
       res.json(data)
     })
   } catch(error) {

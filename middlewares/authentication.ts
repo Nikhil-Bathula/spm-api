@@ -8,7 +8,6 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
-const companyRepo: CompanyRepository = new CompanyRepository()
 
 export const authenticate = async (req: Request, res: Response) => {
   const user = await prisma.user.findUnique({
@@ -28,7 +27,6 @@ export const authenticate = async (req: Request, res: Response) => {
             email: user?.email,
             company_id: user?.company_id
           }
-          const company_id_retrieved = companyRepo.findCompanyByDomain(user.email)
           const refreshToken = jwt.sign(userObj, process.env.SPM_JWT_REFRESH)
           if(user.refreshToken === '') {
             const updateRefreshToken = await prisma.user.update({
